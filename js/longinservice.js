@@ -2,28 +2,35 @@ document.getElementById("formLogin").addEventListener('submit' , function(e){
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    let message = ""
-    let alerType = ""
+   login(email, password)
+})
 
-
-    if(email === ""|| password ==="" ){
-        alerType = "warnig"
-        message='Por favor completa todos los campos.'
-    }
-    else if(email === "prueba@gmail.com" && password === "123456"){
+function login(email, password){
+     let message = ""
+     let alerType = ""
+    fetch("https://reqres.in/api/login",{
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({email, password})
+    })
+    .then((data) => {
         alerType = "success"
         message = 'Incio de secion exitosa'
-    }
-    else{
-        alerType = "danger"
+        console.log("Responde bien")
+    })
+    .catch((error) => {
+          alerType = "danger"
         message = "correo o contraseña incorrecta"
-    }
+        console.error(error)
+    })
 
     let alert = `
-            <div class="alert alert-${alerType} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> 
+    <div class="alert alert-${alerType} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div> 
     `;
-         document.getElementById("alert").innerHTML = alert
-})
+    document.getElementById("alert").innerHTML = alert
+}
