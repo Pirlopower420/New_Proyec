@@ -23,7 +23,9 @@ function login(email, password){
             message = 'Incio de secion exitosa'
             console.log("Responde bien"+ response)
             alertbuilder(alerType,message)
-            localStorage.setItem("token", "1111111111")
+            response.json().then((data)=>(
+                localStorage.setItem("token", data.token)
+            ))
             setTimeout(() => {
                   location.href= "admin/dashboard.html"
             }, 2000) // 2000 ms = 2 segundos 
@@ -37,7 +39,10 @@ function login(email, password){
        
     })
     .catch((error) => {
+        calerType = 'danger';
+        message = 'Error inesperado';
         console.error(error)
+        alertBuilder(alerType, message)
     })
 }
    
